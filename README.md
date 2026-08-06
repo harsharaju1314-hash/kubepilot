@@ -8,9 +8,9 @@
 [![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
-**KubePilot** is an enterprise-grade **AI-assisted Kubernetes Operations Platform & SRE Copilot** engineered to drastically reduce **Mean Time to Resolution (MTTR)** for cloud-native engineering teams.
+**KubePilot** is an **AI-assisted Kubernetes Operations Platform & SRE Copilot** built to empower developers and DevOps engineers. It simplifies complex Kubernetes cluster monitoring by translating cryptic container logs and crash loops into clear, human-readable explanations and step-by-step solutions.
 
-KubePilot provides real-time workload monitoring, telemetry inspection, container log streaming, and **one-click AI-driven root cause diagnosis** powered by LangChain and LLM models.
+KubePilot provides real-time workload monitoring, container log streaming, and **one-click AI-driven root cause diagnosis** powered by LangChain and LLM models.
 
 ---
 
@@ -38,7 +38,7 @@ flowchart TB
         UI["Next.js 14 Web Application\n(React 18 + Tailwind CSS + Recharts)"]
     end
 
-    subgraph Backend ["FastAPI Backend Layer (App/ API / Services / Core)"]
+    subgraph Backend ["FastAPI Backend Layer (App / API / Services / Core)"]
         API["FastAPI REST & Metrics Router\n(/api/v1/cluster, /pods, /ai, /metrics)"]
         Prometheus["Prometheus Exposition Exporter\n(/api/v1/metrics/prometheus)"]
         K8sService["Kubernetes Service Layer\n(CoreV1Api / AppsV1Api)"]
@@ -64,10 +64,10 @@ flowchart TB
 
 ## ✨ Key Features
 
-- 🤖 **AI-Assisted Root Cause Diagnosis**: One-click LangChain diagnostic engine parsing container logs and pod specs to return:
-  - **Identified Failure Root Cause**
+- 🤖 **Humanized AI-Assisted Root Cause Diagnosis**: One-click LangChain diagnostic engine parsing container logs and pod specs to return:
+  - **Human-Readable Failure Explanation**
   - **Severity Rating** (`Critical`, `High`, `Medium`, `Low`)
-  - **Technical Explanation**
+  - **Clear Technical Breakdown**
   - **Step-by-Step Actionable Remediation Commands**
   - **Official Kubernetes Documentation References**
 - 📈 **"What Changed Today?" Change Summarizer**: AI-generated timeline summaries of recent deployments, scaling events, pod crashes, and deleted resources.
