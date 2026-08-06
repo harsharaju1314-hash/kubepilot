@@ -2,85 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --background: #090D16;
-  --foreground: #F8FAFC;
+  --background: #030712;
+  --foreground: #F9FAFB;
+  --neon-cyan: #00F0FF;
+  --neon-purple: #9D00FF;
+  --neon-emerald: #00FF87;
+  --neon-rose: #FF0055;
+  --neon-amber: #FFB800;
 }
 
 body {
   color: var(--foreground);
-  background-color: #090D16;
+  background-color: #030712;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.09) 0%, transparent 45%),
-    radial-gradient(circle at 85% 20%, rgba(168, 85, 247, 0.09) 0%, transparent 45%),
-    radial-gradient(circle at 50% 80%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
-    linear-gradient(to bottom, rgba(9, 13, 22, 0.8), rgba(9, 13, 22, 0.95));
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    radial-gradient(ellipse at 10% 10%, rgba(0, 240, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 15%, rgba(157, 0, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, rgba(0, 255, 135, 0.08) 0%, transparent 60%),
+    linear-gradient(to bottom, rgba(3, 7, 18, 0.95), rgba(3, 7, 18, 0.98));
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Futuristic Grid Background Texture */
-.bg-grid-pattern {
-  background-size: 32px 32px;
+/* Cyberpunk Mesh Grid */
+.bg-cyber-grid {
+  background-size: 40px 40px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
 }
 
-/* Glassmorphism Panels */
-.glass-panel {
-  background: rgba(15, 22, 35, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+/* Glassmorphism 2.0 */
+.glass-cyber {
+  background: rgba(10, 16, 30, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+.glass-cyber-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-.glass-panel-glow {
-  position: relative;
-}
-.glass-panel-glow::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 1.5rem;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(168, 85, 247, 0.2), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+.glass-cyber-card:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 25px -5px rgba(0, 240, 255, 0.25);
 }
 
-.glass-card {
-  background: rgba(22, 32, 50, 0.55);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+/* Neon Glow Utilities */
+.glow-text-cyan {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
 }
 
-/* Animations & Keyframes */
-@keyframes pulseGlow {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
+.glow-text-purple {
+  text-shadow: 0 0 12px rgba(157, 0, 255, 0.6);
 }
 
-.animate-pulse-glow {
-  animation: pulseGlow 3s infinite ease-in-out;
+.glow-border-cyan {
+  box-shadow: 0 0 20px -3px rgba(0, 240, 255, 0.4);
 }
 
-/* Custom Sleek Scrollbar */
+.glow-border-rose {
+  box-shadow: 0 0 20px -3px rgba(255, 0, 85, 0.4);
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Cyber Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090D16;
+  background: #030712;
 }
 ::-webkit-scrollbar-thumb {
   background: #1E293B;
-  border-radius: 9999px;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #38BDF8;
+  background: #00F0FF;
+  box-shadow: 0 0 10px #00F0FF;
 }

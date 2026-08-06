@@ -6,7 +6,7 @@ import { PodDetailModal } from '../../components/pod/PodDetailModal';
 import { AILogAnalysisModal } from '../../components/ai/AILogAnalysisModal';
 import { api } from '../../services/api';
 import { PodItem, DeploymentItem, ServiceItem, NodeItem } from '../../types';
-import { Box, Layers, Network, Server, Filter } from 'lucide-react';
+import { Box, Layers, Network, Server, Filter, Compass } from 'lucide-react';
 
 export default function ExplorerPage() {
   const [activeTab, setActiveTab] = useState<'pods' | 'deployments' | 'services' | 'nodes'>('pods');
@@ -49,21 +49,24 @@ export default function ExplorerPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
+    <div className="space-y-8 max-w-7xl mx-auto pb-16 bg-cyber-grid">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">Kubernetes Resource Explorer</h1>
-          <p className="text-xs text-slate-400 mt-1">Browse, inspect logs, and debug cluster resources</p>
+          <h1 className="text-2xl font-black text-white tracking-tight font-mono-code flex items-center gap-3">
+            <Compass className="w-6 h-6 text-cyan-400" />
+            KUBERNETES WORKLOAD EXPLORER
+          </h1>
+          <p className="text-xs text-slate-400 mt-1 font-mono-code">Inspect namespaces, pods, deployments, and cluster nodes</p>
         </div>
 
         {/* Namespace Dropdown Filter */}
-        <div className="flex items-center gap-2">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <span className="text-xs text-slate-400 font-medium">Namespace:</span>
+        <div className="flex items-center gap-2 bg-[#0B132B] px-4 py-2 rounded-2xl border border-cyan-500/20">
+          <Filter className="w-4 h-4 text-cyan-400" />
+          <span className="text-xs text-slate-400 font-mono-code font-bold">Namespace:</span>
           <select
             value={selectedNamespace}
             onChange={(e) => setSelectedNamespace(e.target.value)}
-            className="bg-[#1A2332] border border-[#1E293B] rounded-lg px-3 py-1.5 text-xs text-cyan-400 font-mono focus:outline-none"
+            className="bg-[#142038] border border-[#1E293B] rounded-xl px-3 py-1 text-xs text-cyan-300 font-mono-code focus:outline-none"
           >
             {namespaces.map((ns) => (
               <option key={ns} value={ns}>{ns}</option>
@@ -73,7 +76,7 @@ export default function ExplorerPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-[#1E293B] pb-3">
+      <div className="flex flex-wrap gap-2 border-b border-[#1E293B]/80 pb-4">
         {[
           { id: 'pods', label: `Pods (${pods.length})`, icon: Box },
           { id: 'deployments', label: `Deployments (${deployments.length})`, icon: Layers },
@@ -86,10 +89,10 @@ export default function ExplorerPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-xs font-mono-code font-bold transition-all ${
                 isActive
-                  ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 shadow-sm shadow-cyan-500/10'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#1A2332]'
+                  ? 'bg-gradient-to-r from-cyan-500/25 to-purple-500/25 text-cyan-300 border border-cyan-500/40 shadow-lg shadow-cyan-500/10'
+                  : 'bg-[#0B132B] text-slate-400 hover:text-slate-200 hover:bg-[#142038]'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -99,7 +102,7 @@ export default function ExplorerPage() {
         })}
       </div>
 
-      {/* Resource Table */}
+      {/* Table */}
       <ExplorerTable
         activeTab={activeTab}
         pods={pods}
