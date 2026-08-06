@@ -128,8 +128,8 @@ export const Header: React.FC<HeaderProps> = ({ onSearchChange, onRefresh }) => 
             </div>
           </div>
           <div className="hidden lg:block">
-            <div className="text-xs font-bold text-white font-mono-code">SRE Lead</div>
-            <div className="text-[10px] text-cyan-400 font-mono-code">DevOps Operational</div>
+            <div className="text-xs font-bold text-white font-mono-code">Harshavardhan</div>
+            <div className="text-[10px] text-cyan-400 font-mono-code">DevOps Lead</div>
           </div>
         </div>
       </div>
