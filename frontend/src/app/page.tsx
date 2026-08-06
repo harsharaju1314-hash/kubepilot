@@ -9,8 +9,7 @@ import { AILogAnalysisModal } from '../components/ai/AILogAnalysisModal';
 import { DeploymentSummaryPanel } from '../components/ai/DeploymentSummaryPanel';
 import { api } from '../services/api';
 import { ClusterHealth, ResourceMetrics, PodItem } from '../types';
-import { Sparkles, ArrowRight, ShieldAlert, Terminal, Send, CheckCircle, Zap, Cpu, Bot } from 'lucide-react';
-import Link from 'next/link';
+import { Sparkles, Bot } from 'lucide-react';
 
 export default function DashboardPage() {
   const [health, setHealth] = useState<ClusterHealth | null>(null);
@@ -53,20 +52,20 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto pb-16 bg-grid-pattern">
-      {/* AI Copilot Hero & Quick Prompts */}
-      <div className="glass-panel glass-panel-glow p-6 md:p-8 rounded-3xl border border-cyan-500/40 relative overflow-hidden bg-gradient-to-br from-[#0F172A] via-[#131F37] to-[#0A0F1D] shadow-2xl">
+    <div className="space-y-8 max-w-7xl mx-auto pb-16 bg-navy-grid">
+      {/* AI Copilot Hero */}
+      <div className="glass-slate p-6 md:p-8 rounded-3xl border border-indigo-500/40 relative overflow-hidden bg-gradient-to-br from-[#132238] via-[#162742] to-[#0F1A30] shadow-2xl">
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 text-xs font-black shadow-lg shadow-cyan-500/10">
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-indigo-500/20 text-cyan-300 border border-indigo-500/40 text-xs font-black shadow-lg shadow-indigo-500/10">
             <Bot className="w-4 h-4 text-cyan-400 animate-bounce" />
-            AI SRE Copilot Active
+            AI SRE Copilot Ready
           </div>
 
           <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
             Autonomous Kubernetes Diagnostics & Intelligence
           </h1>
           <p className="text-sm text-slate-300 leading-relaxed font-sans">
-            KubePilot monitors cluster telemetry in real-time. Select any workload below for one-click LLM log diagnosis or ask for change summaries.
+            KubePilot continuously synchronizes cluster logs, memory pressures, and pod restarts. Select any workload below for instant LLM log troubleshooting.
           </p>
 
           {/* Prompt Buttons */}
@@ -75,7 +74,7 @@ export default function DashboardPage() {
               <button
                 key={idx}
                 onClick={() => handlePromptClick(item)}
-                className="px-4 py-2.5 rounded-2xl bg-[#172338] hover:bg-cyan-500/20 text-cyan-200 hover:text-white text-xs font-bold border border-cyan-500/35 transition-all flex items-center gap-2 shadow-md hover:scale-105"
+                className="px-4 py-2.5 rounded-2xl bg-[#1A2C48] hover:bg-indigo-500/25 text-cyan-200 hover:text-white text-xs font-bold border border-indigo-500/40 transition-all flex items-center gap-2 shadow-md hover:scale-105"
               >
                 {item.label}
               </button>

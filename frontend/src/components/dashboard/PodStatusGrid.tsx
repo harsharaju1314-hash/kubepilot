@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { PodItem } from '../../types';
-import { Box, Sparkles, Terminal, ShieldAlert, Cpu, HardDrive, CheckCircle2, AlertOctagon, Filter } from 'lucide-react';
+import { Box, Sparkles, Terminal, Cpu, CheckCircle2, AlertOctagon } from 'lucide-react';
 
 interface Props {
   pods: PodItem[];
@@ -26,24 +26,23 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
 
   return (
     <div className="space-y-4">
-      {/* Header & Filter Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0F1625]/60 p-4 rounded-2xl border border-[#1E293B]">
+      {/* Header & Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#132238]/80 p-4 rounded-2xl border border-[#1E3A5F]">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+          <div className="w-9 h-9 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
             <Cpu className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white tracking-tight flex items-center gap-2">
+            <h3 className="text-base font-bold text-white tracking-tight flex items-center gap-2 font-mono-code">
               Workload Status Grid
-              <span className="text-xs font-mono font-normal text-slate-400">({filteredPods.length} pods)</span>
+              <span className="text-xs font-normal text-slate-400">({filteredPods.length} pods)</span>
             </h3>
-            <p className="text-xs text-slate-400">Filter and inspect container health telemetry across cluster namespaces</p>
+            <p className="text-xs text-slate-400">Inspect pod health telemetry and micro-resource usage</p>
           </div>
         </div>
 
-        {/* Filter Buttons */}
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-1 bg-[#151E2E] p-1 rounded-xl border border-[#1E293B]">
+          <div className="flex items-center gap-1 bg-[#1A2C48] p-1 rounded-xl border border-[#1E3A5F]">
             {[
               { id: 'all', label: 'All Pods' },
               { id: 'unhealthy', label: '⚠️ Unhealthy Only' },
@@ -54,7 +53,7 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
                 onClick={() => setStatusFilter(tab.id as any)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   statusFilter === tab.id
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm'
+                    ? 'bg-indigo-500/25 text-cyan-300 border border-indigo-500/40 shadow-sm'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -66,7 +65,7 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
           <select
             value={selectedNamespace}
             onChange={(e) => setSelectedNamespace(e.target.value)}
-            className="bg-[#151E2E] border border-[#1E293B] rounded-xl px-3 py-1.5 text-xs text-cyan-300 font-mono focus:outline-none"
+            className="bg-[#1A2C48] border border-[#1E3A5F] rounded-xl px-3 py-1.5 text-xs text-cyan-300 font-mono-code focus:outline-none"
           >
             {namespaces.map(ns => (
               <option key={ns} value={ns}>ns: {ns}</option>
@@ -75,31 +74,27 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
         </div>
       </div>
 
-      {/* Cards Grid */}
+      {/* Grid Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredPods.map((pod) => {
           const isFailing = pod.status !== 'Running' && pod.status !== 'Completed';
           return (
             <div
               key={pod.name}
-              className={`glass-panel p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between relative overflow-hidden group ${
+              className={`glass-slate p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between relative overflow-hidden group ${
                 isFailing
-                  ? 'border-rose-500/40 bg-gradient-to-b from-rose-950/20 to-transparent shadow-xl shadow-rose-950/20'
-                  : 'border-[#1E293B] hover:border-cyan-500/40 hover:shadow-xl hover:shadow-cyan-500/10'
+                  ? 'border-rose-500/40 bg-gradient-to-b from-rose-950/30 to-[#132238]/60 shadow-xl'
+                  : 'border-[#1E3A5F] hover:border-cyan-500/40 hover:shadow-xl'
               }`}
             >
-              {isFailing && (
-                <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
-              )}
-
               <div>
                 {/* Header */}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-full bg-[#182234] text-slate-300 border border-[#1E293B]">
+                  <span className="text-[10px] font-mono-code font-bold uppercase px-2.5 py-0.5 rounded-full bg-[#1A2C48] text-slate-300 border border-slate-700">
                     {pod.namespace}
                   </span>
                   <span
-                    className={`px-3 py-0.5 rounded-full text-xs font-black border flex items-center gap-1.5 ${
+                    className={`px-3 py-0.5 rounded-full text-xs font-black border flex items-center gap-1.5 font-mono-code ${
                       isFailing
                         ? 'bg-rose-500/20 text-rose-300 border-rose-500/40 animate-pulse'
                         : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
@@ -111,12 +106,12 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
                 </div>
 
                 {/* Title */}
-                <h4 className="font-extrabold text-white text-sm font-mono truncate mb-3 group-hover:text-cyan-400 transition-colors">
+                <h4 className="font-extrabold text-white text-sm font-mono-code truncate mb-3 group-hover:text-cyan-300 transition-colors">
                   {pod.name}
                 </h4>
 
-                {/* Micro Resource Bars */}
-                <div className="bg-[#0F1625] p-3 rounded-xl border border-[#1E293B] space-y-2 font-mono text-xs mb-4">
+                {/* Resource Meters */}
+                <div className="bg-[#0F1A30] p-3 rounded-xl border border-[#1E3A5F] space-y-2 font-mono-code text-xs mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-400 text-[11px]">Restarts:</span>
                     <span className={pod.restart_count > 0 ? 'text-amber-400 font-bold' : 'text-slate-300'}>
@@ -127,7 +122,7 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
                   <div className="space-y-1">
                     <div className="flex justify-between text-[11px]">
                       <span className="text-slate-400">CPU Usage:</span>
-                      <span className="text-cyan-400 font-bold">{pod.cpu_usage_m}m</span>
+                      <span className="text-cyan-300 font-bold">{pod.cpu_usage_m}m</span>
                     </div>
                     <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
                       <div
@@ -140,11 +135,11 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
                   <div className="space-y-1 pt-1">
                     <div className="flex justify-between text-[11px]">
                       <span className="text-slate-400">Memory Usage:</span>
-                      <span className="text-purple-400 font-bold">{pod.memory_usage_mb}MB</span>
+                      <span className="text-indigo-300 font-bold">{pod.memory_usage_mb}MB</span>
                     </div>
                     <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-purple-400 rounded-full transition-all"
+                        className="h-full bg-indigo-400 rounded-full transition-all"
                         style={{ width: `${Math.min(100, (pod.memory_usage_mb / 2048) * 100)}%` }}
                       ></div>
                     </div>
@@ -156,17 +151,17 @@ export const PodStatusGrid: React.FC<Props> = ({ pods, onSelectPod, onAnalyzePod
               <div className="flex gap-2 pt-1">
                 <button
                   onClick={() => onSelectPod(pod)}
-                  className="flex-1 py-2 rounded-xl bg-[#182336] hover:bg-slate-800 text-slate-200 text-xs font-bold border border-[#1E293B] transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                  className="flex-1 py-2 rounded-xl bg-[#1A2C48] hover:bg-slate-800 text-slate-200 text-xs font-bold border border-[#1E3A5F] transition-all flex items-center justify-center gap-1.5"
                 >
                   <Terminal className="w-3.5 h-3.5 text-cyan-400" />
                   View Logs
                 </button>
                 <button
                   onClick={() => onAnalyzePod(pod)}
-                  className="flex-1 py-2 rounded-xl bg-gradient-to-r from-cyan-500/25 via-purple-500/25 to-pink-500/25 hover:from-cyan-500/40 hover:to-purple-500/40 text-cyan-200 text-xs font-black border border-cyan-500/40 transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-cyan-500/10"
+                  className="flex-1 py-2 rounded-xl bg-gradient-to-r from-indigo-500/30 to-purple-500/30 hover:from-indigo-500/40 hover:to-purple-500/40 text-cyan-200 text-xs font-extrabold border border-indigo-500/40 transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-500/10"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-spin" />
-                  AI Troubleshoot
+                  AI Diagnosis
                 </button>
               </div>
             </div>
