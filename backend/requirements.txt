@@ -1,0 +1,11 @@
+fastapi>=0.104.0
+uvicorn[standard]>=0.23.2
+pydantic>=2.4.2
+kubernetes>=28.1.0
+langchain>=0.1.0
+langchain-community>=0.0.10
+langchain-openai>=0.0.2
+python-dotenv>=1.0.0
+pytest>=7.4.3
+httpx>=0.25.1
+requests>=2.31.0

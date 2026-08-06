@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubepilot-backend
+  namespace: default
+  labels:
+    app: kubepilot-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubepilot-backend
+  template:
+    metadata:
+      labels:
+        app: kubepilot-backend
+    spec:
+      containers:
+      - name: backend
+        image: kubepilot/backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: USE_SIMULATOR
+          value: "false"
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kubepilot-secrets
+              key: openai-api-key
+              optional: true
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubepilot-backend-svc
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: kubepilot-backend
+  ports:
+  - port: 8000
+    targetPort: 8000

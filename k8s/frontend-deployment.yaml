@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubepilot-frontend
+  namespace: default
+  labels:
+    app: kubepilot-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kubepilot-frontend
+  template:
+    metadata:
+      labels:
+        app: kubepilot-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: kubepilot/frontend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NEXT_PUBLIC_API_URL
+          value: "http://kubepilot-backend-svc:8000/api/v1"
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubepilot-frontend-svc
+  namespace: default
+spec:
+  type: LoadBalancer
+  selector:
+    app: kubepilot-frontend
+  ports:
+  - port: 80
+    targetPort: 3000
