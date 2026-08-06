@@ -1,24 +1,23 @@
-# 🚀 KubePilot: AI-Assisted Kubernetes Operations Platform
+# 🚀 KubePilot
+### **AI-Powered Kubernetes Operations Copilot**
 
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Next.js](https://img.shields.io/badge/Frontend-Next.js%2014-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![LangChain](https://img.shields.io/badge/AI-LangChain-1C3C3C?style=flat-square&logo=chainlink)](https://www.langchain.com/)
-[![Kubernetes](https://img.shields.io/badge/Orchestration-Kubernetes-326CE5?style=flat-square&logo=kubernetes)](https://kubernetes.io/)
-[![Prometheus](https://img.shields.io/badge/Metrics-Prometheus-E6522C?style=flat-square&logo=prometheus)](https://prometheus.io/)
-[![Docker](https://img.shields.io/badge/Container-Docker-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green?style=flat-square&logo=fastapi)
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Cloud--Native-326CE5?style=flat-square&logo=kubernetes)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker)
+![GitHub Actions](https://img.shields.io/badge/CI-GitHub_Actions-success?style=flat-square&logo=githubactions)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-An enterprise-grade **AI-assisted Kubernetes Operations Platform & SRE Copilot** engineered to reduce **Mean Time to Resolution (MTTR)** by combining real-time cluster telemetry with automated LLM root-cause diagnosis.
+A cloud-native operations platform engineered to reduce **Mean Time to Resolution (MTTR)** by combining real-time cluster telemetry with automated LLM root-cause diagnosis.
 
 ---
 
 ## ❓ Why KubePilot?
 
-Modern Kubernetes production environments generate thousands of logs, events, and metrics every minute.
+Diagnosing Kubernetes failures typically requires engineers to inspect logs, pod specifications, events, metrics, and deployment history across multiple disparate tools.
 
-When an application fails (e.g. `CrashLoopBackOff` or `OOMKilled`), Site Reliability Engineers (SREs) often spend significant time manually jumping between terminal windows, running `kubectl logs`, inspecting pod specs, reading stack traces, and searching documentation.
-
-**KubePilot** eliminates this manual overhead. It correlates container log streams, pod specs, and warning events into a unified dashboard, running them through a **LangChain AI diagnostic pipeline** to instantly deliver root-cause explanations and step-by-step resolution commands.
+**KubePilot** centralizes these workflows into a single AI-assisted platform that correlates Kubernetes telemetry with LLM-powered root cause analysis, allowing engineers to diagnose and remediate incidents from a single interface.
 
 ---
 
@@ -28,8 +27,8 @@ When an application fails (e.g. `CrashLoopBackOff` or `OOMKilled`), Site Reliabi
 | :--- | :--- |
 | **AI SRE Diagnostics** | One-click LangChain log analysis delivering root cause, severity rating, and step-by-step remediation steps. |
 | **"What Changed Today?"** | AI-generated timeline summaries of recent deployments, scaling events, pod crashes, and deleted resources. |
-| **Cluster Health Telemetry** | Real-time aggregate cluster status counters, node readiness, and active warning alerts. |
-| **Resource Metrics & Prometheus** | Live CPU Core and RAM memory charts + native `/api/v1/metrics/prometheus` exposition endpoint for scrapers. |
+| **Cluster Telemetry** | Real-time status counters, node readiness, and active warning alert notifications. |
+| **Metrics & Prometheus** | Live CPU Core and RAM memory charts + native `/api/v1/metrics/prometheus` exposition endpoint for scrapers. |
 | **Kubernetes Explorer** | Browse Namespaces, Pods, Deployments, ReplicaSets, Services, and Nodes with real-time status pills and filters. |
 | **Interactive Log Viewer** | Stream container stdout/stderr logs with error level syntax highlighting (`[ERROR]`, `[WARN]`, `[INFO]`), search filtering, and copy features. |
 | **Production Health Probes** | Pre-configured `livenessProbe` and `readinessProbe` configs for zero-downtime Kubernetes deployments. |
@@ -44,7 +43,7 @@ flowchart TB
         UI["Next.js 14 Web Application\n(React 18 + Tailwind CSS + Recharts)"]
     end
 
-    subgraph Backend ["FastAPI Backend Layer (App / API / Services / Core)"]
+    subgraph Backend ["FastAPI Backend Layer"]
         API["FastAPI REST & Metrics Router\n(/api/v1/cluster, /pods, /ai, /metrics)"]
         Prometheus["Prometheus Exposition Exporter\n(/api/v1/metrics/prometheus)"]
         K8sService["Kubernetes Service Layer\n(CoreV1Api / AppsV1Api)"]
@@ -70,28 +69,17 @@ flowchart TB
 
 ## 🤖 AI Diagnostic Workflow Pipeline
 
-The step-by-step pipeline executed when an engineer clicks **"Troubleshoot with AI"**:
+The execution flow when an engineer triggers **"Troubleshoot with AI"**:
 
-```
-[ User selects Pod ]
-         │
-         ▼
-[ Fetch Pod Logs (stdout/stderr) ] ───► [ Fetch Pod Spec & Environment Variables ]
-                                                       │
-                                                       ▼
-                                       [ Construct Structured SRE Prompt ]
-                                                       │
-                                                       ▼
-                                       [ LangChain Execution Pipeline ]
-                                                       │
-                                                       ▼
-                                       [ LLM Execution (OpenAI / Ollama) ]
-                                                       │
-                                                       ▼
-                                       [ Pydantic Output Parser Validation ]
-                                                       │
-                                                       ▼
-                                [ Render Severity, Root Cause, & Fixes in UI ]
+```mermaid
+flowchart TD
+    A[Select Pod] --> B[Fetch Pod Logs]
+    B --> C[Fetch Pod Spec & Env Vars]
+    C --> D[Construct SRE Prompt]
+    D --> E[LangChain Execution Engine]
+    E --> F[LLM Provider OpenAI / Ollama]
+    F --> G[PydanticOutputParser Validation]
+    G --> H[Render Diagnosis & Fixes in UI]
 ```
 
 ---
@@ -100,47 +88,42 @@ The step-by-step pipeline executed when an engineer clicks **"Troubleshoot with 
 
 ```
 kubepilot/
-├── backend/
-│   ├── app/
-│   │   ├── api/
-│   │   │   └── v1/
-│   │   │       ├── endpoints/      # REST & Prometheus route handlers
-│   │   │       └── router.py
-│   │   ├── core/                   # App configuration & logging
-│   │   ├── schemas/                # Pydantic v2 validation models
-│   │   ├── services/
-│   │   │   ├── ai/                 # LangChain AI diagnostic engine
-│   │   │   └── kubernetes/         # K8s Python SDK client & state simulator
-│   │   ├── utils/                  # Prometheus metrics exporter
-│   │   └── main.py                 # FastAPI application entrypoint
-│   ├── tests/                      # Pytest automated test suite
+├── **backend/**
+│   ├── **app/**
+│   │   ├── **api/v1/endpoints/**  # REST & Prometheus route handlers
+│   │   ├── **core/**               # App configuration & logging
+│   │   ├── **schemas/**            # Pydantic v2 validation models
+│   │   ├── **services/**
+│   │   │   ├── **ai/**             # LangChain AI diagnostic engine
+│   │   │   └── **kubernetes/**     # K8s Python SDK client & state simulator
+│   │   └── **utils/**              # Prometheus metrics exporter
+│   ├── **tests/**                  # Pytest automated test suite
 │   ├── Dockerfile
 │   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── app/                    # Next.js App Router pages
-│   │   ├── components/             # Dashboard, Explorer, Log Viewer, AI Modal
-│   │   ├── services/               # Axios API client
-│   │   └── types/                  # TypeScript interfaces
+├── **frontend/**
+│   ├── **src/**
+│   │   ├── **app/**                # Next.js App Router pages
+│   │   ├── **components/**         # Dashboard, Explorer, Log Viewer, AI Modal
+│   │   └── **services/**           # Axios API client
 │   ├── Dockerfile
 │   └── package.json
-├── k8s/                            # Kubernetes production manifests with probes
-├── .github/workflows/ci-cd.yml     # GitHub Actions CI pipeline
+├── **k8s/**                        # Kubernetes deployment manifests with probes
+├── **.github/workflows/**          # GitHub Actions CI pipeline
 └── docker-compose.yml              # Unified local container orchestration
 ```
 
 ---
 
-## 📚 REST API Reference & Sample Payload
+## 📚 REST API Reference
+
+- **Authentication**: `None (Development)` | `OAuth2 / JWT (Planned)`
 
 ### Sample Endpoint: `GET /api/v1/pods`
 
-#### Request
 ```bash
 curl -X GET "http://localhost:8000/api/v1/pods?namespace=production&status=CrashLoopBackOff"
 ```
 
-#### JSON Response
 ```json
 [
   {
@@ -153,15 +136,6 @@ curl -X GET "http://localhost:8000/api/v1/pods?namespace=production&status=Crash
     "restart_count": 8,
     "cpu_usage_m": 450,
     "memory_usage_mb": 512,
-    "labels": {
-      "app": "payment-service",
-      "tier": "backend"
-    },
-    "environment_vars": {
-      "DB_HOST": "postgres-prod.internal",
-      "DB_PORT": "5432",
-      "DB_TIMEOUT_MS": "3000"
-    },
     "containers": [
       {
         "name": "payment-app",
@@ -175,7 +149,7 @@ curl -X GET "http://localhost:8000/api/v1/pods?namespace=production&status=Crash
 ]
 ```
 
-### Full API Endpoint Directory
+### Endpoint Directory
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
@@ -195,17 +169,16 @@ curl -X GET "http://localhost:8000/api/v1/pods?namespace=production&status=Crash
 
 ---
 
-## ⚡ Performance Benchmarks
+## ⚡ Observed Local Performance
 
-Measured on standard development hardware (Intel i7 / 16GB RAM):
+*Observed during local development execution (Minikube / Docker environment):*
 
-| Benchmark Metric | Measured Value |
+| Metric | Observed Value |
 | :--- | :--- |
 | **FastAPI Backend Cold Startup** | `~1.2 seconds` |
 | **REST API Endpoint Latency** | `< 45 ms` |
 | **AI Diagnosis Pipeline Execution** | `~2.1 seconds` |
 | **Prometheus Exporter Response** | `< 12 ms` |
-| **Pytest Unit Test Suite Execution** | `0.81 seconds` (10/10 passed) |
 
 ---
 
@@ -213,15 +186,34 @@ Measured on standard development hardware (Intel i7 / 16GB RAM):
 
 - **Why FastAPI?** Chosen for high-performance asynchronous execution (`async`/`await`), automatic OpenAPI/Swagger documentation, and native Pydantic v2 data validation.
 - **Why Kubernetes Python SDK?** Uses official client models (`CoreV1Api`, `AppsV1Api`) for typed, secure API calls without relying on shell commands.
-- **Why LangChain?** Facilitates structured prompt templates and output parsing (`PydanticOutputParser`), ensuring deterministic, non-hallucinated JSON outputs from LLM providers.
+- **Why LangChain?** Facilitates structured prompt templates and output parsing (`PydanticOutputParser`), ensuring structured JSON outputs validated using Pydantic.
 - **Why Docker & Docker Compose?** Guarantees environment parity between local development and production container deployments.
+
+---
+
+## 🛠️ Engineering Challenges
+
+- **Dual-Mode Cluster Operations**: Supporting both live Kubernetes clusters and a local simulator seamlessly without code modifications.
+- **Deterministic AI Responses**: Designing structured prompt constraints to parse inconsistent container log tracebacks into uniform diagnostic schemas.
+- **API Resilience**: Gracefully catching Kubernetes client connection failures and missing API key exceptions to prevent service disruption.
+- **UI Responsiveness**: Managing asynchronous API polling for logs while keeping the Next.js frontend fluid.
+
+---
+
+## 🎓 Key Learnings
+
+- Designing RESTful APIs for cloud-native applications using FastAPI and Pydantic v2.
+- Integrating Kubernetes cluster APIs through the official Python SDK.
+- Orchestrating AI-assisted operational workflows with LangChain.
+- Containerizing multi-service architectures using Docker and Kubernetes.
+- Implementing CI/CD automation pipelines with GitHub Actions.
 
 ---
 
 ## 🛡️ Error Handling & Reliability
 
-- **Kubernetes Disconnection**: Automatically falls back to the internal state simulator if `~/.kube/config` is missing or unreachable.
-- **Missing AI API Key**: Executes an intelligent rule-based SRE diagnostic engine to ensure zero downtime during offline testing.
+- **Kubernetes Disconnection**: Automatically switches to the fallback diagnostic engine if `~/.kube/config` is missing or unreachable.
+- **Missing AI API Key**: Executes a fallback diagnostic engine to ensure continuous operation during offline testing.
 - **Pod Deletion During Analysis**: Returns a graceful HTTP 404 response with human-readable error messaging.
 
 ---
@@ -240,7 +232,7 @@ docker-compose up --build
 ```
 
 Access the services:
-- 🌐 **AI Operations Platform UI**: [http://localhost:3000](http://localhost:3000)
+- 🌐 **Web UI**: [http://localhost:3000](http://localhost:3000)
 - 📚 **FastAPI Interactive Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 - 📊 **Prometheus Metrics Stream**: [http://localhost:8000/api/v1/metrics/prometheus](http://localhost:8000/api/v1/metrics/prometheus)
 
@@ -260,7 +252,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Run pytest unit tests
+# Run pytest unit tests (covers API endpoints & AI diagnostic pipeline)
 pytest -v
 
 # Start FastAPI server
@@ -279,15 +271,13 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your web browser.
-
 ---
 
 ## 🗺️ Roadmap & Future Enhancements
 
 - 🌐 **Multi-Cluster Support**: Manage multiple Kubernetes contexts from a single dashboard.
+- 🔐 **OAuth2 & JWT Authentication**: Role-based access control (RBAC) for cluster actions.
 - 🔔 **Slack & PagerDuty Alerts**: Webhook dispatching for critical pod incidents.
-- 🔐 **OAuth2 & RBAC**: Role-based access control for namespace management.
 - 📊 **Grafana Dashboard Templates**: Pre-configured dashboards for cluster metrics.
 
 ---
