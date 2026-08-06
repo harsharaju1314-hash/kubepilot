@@ -3,8 +3,8 @@ from app.schemas.ai import (
     LogAnalysisRequest, LogAnalysisResponse,
     DeploymentSummaryRequest, DeploymentSummaryResponse
 )
-from app.services.k8s_service import k8s_service
-from app.services.ai_service import ai_service
+from app.services.kubernetes.k8s_service import k8s_service
+from app.services.ai.ai_service import ai_service
 
 router = APIRouter()
 

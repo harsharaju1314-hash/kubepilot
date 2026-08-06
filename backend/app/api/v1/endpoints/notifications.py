@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 from fastapi import APIRouter
-from app.services.k8s_service import k8s_service
+from app.services.kubernetes.k8s_service import k8s_service
 
 router = APIRouter()
 

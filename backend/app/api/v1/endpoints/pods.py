@@ -1,7 +1,7 @@
 from typing import List, Optional
 from fastapi import APIRouter, HTTPException, Query
 from app.schemas.k8s import PodItem, PodDetail
-from app.services.k8s_service import k8s_service
+from app.services.kubernetes.k8s_service import k8s_service
 
 router = APIRouter()
 

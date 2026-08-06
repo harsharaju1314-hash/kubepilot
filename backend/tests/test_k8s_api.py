@@ -50,3 +50,9 @@ def test_get_nodes():
     assert response.status_code == 200
     nodes = response.json()
     assert len(nodes) > 0
+
+def test_prometheus_metrics_endpoint():
+    response = client.get("/api/v1/metrics/prometheus")
+    assert response.status_code == 200
+    assert "kubepilot_cluster_pods_total" in response.text
+    assert "kubepilot_cpu_utilization_percent" in response.text

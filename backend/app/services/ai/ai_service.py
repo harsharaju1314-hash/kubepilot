@@ -52,13 +52,13 @@ class AIService:
         try:
             response = self.llm.invoke(input_prompt)
             parsed_result = parser.parse(response.content)
-            parsed_result.analyzed_at = datetime.datetime.utcnow().isoformat() + "Z"
+            parsed_result.analyzed_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
             return parsed_result
         except Exception:
             return self._analyze_with_smart_fallback(pod_name, namespace, logs, pod_spec, custom_prompt)
 
     def _analyze_with_smart_fallback(self, pod_name: str, namespace: str, logs: str, pod_spec: Optional[Dict[str, Any]], custom_prompt: Optional[str]) -> LogAnalysisResponse:
-        now_str = datetime.datetime.utcnow().isoformat() + "Z"
+        now_str = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
         logs_lower = logs.lower()
         if "connectiontimedout" in logs_lower or "timed out" in logs_lower or "connection refused" in logs_lower:
@@ -118,7 +118,7 @@ class AIService:
             )
 
     def generate_deployment_summary(self, timeframe: str = "24h", namespace: Optional[str] = None) -> DeploymentSummaryResponse:
-        now_str = datetime.datetime.utcnow().isoformat() + "Z"
+        now_str = datetime.datetime.now(datetime.timezone.utc).isoformat()
         
         summary_text = (
             f"Over the last {timeframe}, KubePilot tracked 5 cluster events. "

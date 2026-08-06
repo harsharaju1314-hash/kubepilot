@@ -2,7 +2,7 @@ import os
 import datetime
 from typing import List, Dict, Any, Optional
 from app.core.config import settings
-from app.services.mock_data import mock_state
+from app.services.kubernetes.mock_data import mock_state
 
 class KubernetesService:
     def __init__(self):
@@ -60,14 +60,12 @@ class KubernetesService:
                 "cpu_utilization_percent": round(avg_cpu, 1),
                 "memory_utilization_percent": round(avg_mem, 1),
                 "active_warnings": len(mock_state.events),
-                "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
+                "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat()
             }
         else:
-            # Fallback for live cluster retrieval
             return self.get_cluster_health_live()
 
     def get_cluster_health_live(self) -> Dict[str, Any]:
-        # Minimal live fallback if real k8s client is active
         return {
             "status": "Healthy",
             "total_pods": 10,
@@ -82,7 +80,7 @@ class KubernetesService:
             "cpu_utilization_percent": 35.4,
             "memory_utilization_percent": 52.1,
             "active_warnings": 1,
-            "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat()
         }
 
     def get_namespaces(self) -> List[Dict[str, Any]]:
@@ -131,7 +129,7 @@ class KubernetesService:
         return evts
 
     def get_metrics(self) -> Dict[str, Any]:
-        now = datetime.datetime.utcnow()
+        now = datetime.datetime.now(datetime.timezone.utc)
         cpu_hist = []
         mem_hist = []
         for i in range(10, 0, -1):
@@ -140,7 +138,7 @@ class KubernetesService:
             mem_hist.append({"time": t_str, "memory": round(55 + (i * 1.8) % 25, 1)})
             
         return {
-            "timestamp": now.isoformat() + "Z",
+            "timestamp": now.isoformat(),
             "total_cpu_cores": 16.0,
             "used_cpu_cores": 9.6,
             "total_memory_gb": 32.0,
